@@ -50,28 +50,34 @@ fields.
 
 **Run history**
 
-[The agreement score of each run you did, in order. A single run is a complete answer if
-only one run occurred. **The last score in your list must match the agreement line in the
-`eval-run.txt` you committed** — that file is the record of your final run.]
+1. Smoke run, `--limit 3`: `agreement: 3/3 scored items` (pkg-01, pkg-02, pkg-03 all agreed with gold).
+2. Full run, the one committed as `eval-run.txt`: `agreement: 19/20 scored items  (bar: 18/20: PASS)`.
+
+No rubric, procedure, or evidence-guide edits happened between the two runs; the smoke run only confirmed the setup before spending on the full run.
 
 **Package analysis**
 
-[Pick one scored package (`pkg-01` through `pkg-20` — the four `calib-` packages are never
-scored). Name it by id, say what your rubric decided and what the gold label said, and
-explain why your rubric read it that way.]
+**pkg-14** (category `clear-accept`). My rubric decided **reject**; the gold label is **accept**. It was my only disagreement.
+
+The one failing check was Honest unknowns. The grader's evidence line was: "Asserts as fact 'reattach-path change in 0.44.2' and the stdin-before-drain mechanism, neither shown by the repro; comment claims '0.44.2 on leaking' though repro ran 0.44.3 and 0.44.1; only keystroke-eating is named as a risk."
+
+The plan does say "0.44.1, which predates the reattach-path change in 0.44.2, is clean on the same setup", and the repro never ran 0.44.2 itself. My pass condition says "anything the repro evidence did not show (an untested platform, version, or code path the plan depends on) is named as an unknown or risk rather than asserted as fact", so the grader applied it literally: an untested version named as the cause, without being labelled as an inference, fails.
+
+The gold note reads it differently: "honestly scoped-down: reattach handshake fix with a regression-window repro; defers the untestable Windows variant and says so; arguable on the deferral, ready as scoped." A clean 0.44.1 and a broken 0.44.3 bracket the regression, so pointing at 0.44.2 is a fair inference from the evidence, not false confidence. And the plan is honest where it matters: it explicitly defers the Windows variant ("I cannot test Windows") and names its one real risk. My check cannot tell a reasonable inference from a regression window apart from an invented cause, so it holds a plan the gold label considers ready.
 
 **Check rationale**
 
-[Quote one check from the `rubric.md` you uploaded to `tools/plan-check/`, exactly as it reads now.
-Then say why it reads that way — what you revised to get there, or what you rejected in
-favour of it.]
+| AI-use disclosure | The repo-facts block's contribution policy (CONTRIBUTING.md, AI_POLICY.md, or similar) read against the candidate plan comment, using the Comms section of `references/evidence-guide.md`. | Treat every package as AI-assisted work, because it was drafted and checked with this skill; whether the comment mentions AI is not the test. If the policy requires disclosing AI use in issues or comments, the plan comment must name the tool and the extent of its use, and without that statement this fails. Passes when the policy has no disclosure requirement, requires disclosure only for pull requests or code, or only asks that comments be in the contributor's own words. | required |
+
+It reads this way because of what went wrong in Unit 2. There, disclosure was one clause ("including required AI-use disclosure") inside a broad communication check, and the grader passed pkg-20 (Ghostty, whose policy says all AI usage must be disclosed) with the reasoning "no AI use indicated so AI_POLICY.md disclosure is not triggered". That cost me the disclosure category floor. I fixed it in Unit 2 by splitting disclosure into its own required check, and I wrote it that way from the start here.
+
+The two sentences that matter are "Treat every package as AI-assisted work" and "whether the comment mentions AI is not the test": they remove the escape hatch the Unit 2 grader used. The pass list at the end is the other half: it keeps the check from rejecting repos whose AI rule covers only pull requests or code, or only asks for comments in the contributor's own words, which an over-broad "always disclose" check would have rejected. Both thread-convention packages (pkg-04, pkg-20) agreed with gold in the full run.
 
 **Trade-offs**
 
-[Every check gives something up. Any one of these is a complete answer: a package whose
-result it changes, a canary you re-ran with `--only`, a case you accept it will miss, or a
-stated reason nothing changed elsewhere. "Nothing changed, and here is how I know" earns
-the point in full when the reason follows.]
+The trade-off I accept is in Honest unknowns, and the package it changes is pkg-14. The check fails any cause, version, or code path the repro did not directly show unless the plan labels it as an unknown. That strictness is what I want against plans that dress up a guess as a diagnosis, but it also catches a reasonable inference: pkg-14's "reattach-path change in 0.44.2" follows from a clean 0.44.1 and a broken 0.44.3, yet the check counted it as an untested claim stated as fact, and the run graded a clear accept as reject.
+
+I considered loosening the pass condition to let a claim through when it "follows directly from the repro's evidence, such as a regression window", but did not make that change. The run already clears the bar at 19/20, and a looser wording risks letting through plans that state an untested cause as settled, which is exactly what this check exists to stop. I did not re-run any `--only` canaries because I changed nothing after the committed run. I accept that this check will keep missing plans like pkg-14 that reason from a bracketed regression window without saying it is an inference.
 
 ---
 
