@@ -29,15 +29,63 @@ what this field is graded on, so copy across what you actually posted.]
 
 **Branch**
 
-[The name of the branch you built the change on, exactly as it appears in your fork. The
-naming shape is a type prefix, then the issue number, then a short description. **The issue
-number in the branch name must be the number of the issue you claimed** — a name carrying
-any other number does not satisfy this field.]
+fix/57-skip-top-level-vendor-dirs
 
 **Evidence**
 
-[Your Unit 2 reproduction steps re-run against the built change: the before, then the
-after. Paste both, including the commands you ran and their output.]
+My Unit 2 reproduction steps, run from the repo root on macOS 26.6.2 (x86_64), Python 3.14.3, structlog 26.1.0, pytest 9.1.1. Steps 1, 2 and 4 of the repro (issue snippet, control, helper check) were pasted in order into one `.venv/bin/python` session:
+
+```python
+from agent.tools.tech_detector import TechDetector
+t = TechDetector()
+files = ['main.py','core/app.py','node_modules/lib/index.js','node_modules/lib/util.js','node_modules/x/a.js','node_modules/y/b.js','build/bundle.js','build/vendor.js']
+print(t.execute({'files': files}).data)
+print(TechDetector().execute({'files': ['main.py','core/app.py']}).data)
+for p in ['node_modules/lib/index.js', 'build/bundle.js', 'src/node_modules/a.js']:
+    print(p, TechDetector._should_skip_file(p))
+```
+
+**Before**: branch `fix/57-skip-top-level-vendor-dirs` at `2f4e82f` (same as `main`), no changes.
+
+```
+$ .venv/bin/python   # snippets above
+2026-10-05 18:34:34 [info     ] tech_detected                  frameworks_count=0 languages_count=2 primary_lang=JavaScript
+{'primary_language': 'JavaScript', 'all_languages': ['JavaScript', 'Python'], 'frameworks': []}
+2026-10-05 18:34:34 [info     ] tech_detected                  frameworks_count=0 languages_count=1 primary_lang=Python
+{'primary_language': 'Python', 'all_languages': ['Python'], 'frameworks': []}
+node_modules/lib/index.js False
+build/bundle.js False
+src/node_modules/a.js True
+
+$ .venv/bin/python -m pytest tests/unit/test_tech_detector.py -k "node_modules or build_directory" --runxfail
+E       AssertionError: assert 'JavaScript' == 'Python'
+E       AssertionError: assert 'JavaScript' == 'Python'
+FAILED tests/unit/test_tech_detector.py::TestTechDetector::test_node_modules_excluded
+FAILED tests/unit/test_tech_detector.py::TestTechDetector::test_build_directory_excluded
+======================= 2 failed, 25 deselected in 0.12s =======================
+```
+
+**After**: same branch at `7203012` (the fix).
+
+```
+$ .venv/bin/python   # same snippets
+2026-10-05 18:35:00 [info     ] tech_detected                  frameworks_count=0 languages_count=1 primary_lang=Python
+{'primary_language': 'Python', 'all_languages': ['Python'], 'frameworks': []}
+2026-10-05 18:35:00 [info     ] tech_detected                  frameworks_count=0 languages_count=1 primary_lang=Python
+{'primary_language': 'Python', 'all_languages': ['Python'], 'frameworks': []}
+node_modules/lib/index.js True
+build/bundle.js True
+src/node_modules/a.js True
+
+$ .venv/bin/python -m pytest tests/unit/test_tech_detector.py -k "node_modules or build_directory" --runxfail -v
+tests/unit/test_tech_detector.py::TestTechDetector::test_node_modules_excluded PASSED [ 25%]
+tests/unit/test_tech_detector.py::TestTechDetector::test_build_directory_excluded PASSED [ 50%]
+tests/unit/test_tech_detector.py::TestTechDetector::test_should_skip_file_top_level_and_nested[node_modules/lib/index.js-True] PASSED [ 75%]
+tests/unit/test_tech_detector.py::TestTechDetector::test_should_skip_file_top_level_and_nested[src/node_modules/lib/index.js-True] PASSED [100%]
+======================= 4 passed, 29 deselected in 0.08s =======================
+```
+
+The two named tests now pass with their xfail markers removed; the `-k` filter also picks up two cases of the new parametrized test because their ids contain `node_modules`. The full file: `33 passed`. `ruff check`, `black --check` and `mypy` pass on both changed files. The pytest output above is trimmed to the assertion and result lines; the Python session output is complete.
 
 ## Eval iterations
 

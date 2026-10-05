@@ -94,6 +94,6 @@ Not in scope:
 
 ## Deviations
 
-[What changed between the plan you posted and the change you built, and
-why. If nothing changed, say so in your own words - "nothing changed;
-the plan held" earns these points in full. Leaving this blank does not.]
+Almost nothing changed; the plan held. The fix is the one-line change to `_should_skip_file` the plan describes (checking the patterns against `"/" + filepath`), the two xfail markers are gone, and the new parametrized test is in. The only difference from the plan: the parametrized test has one extra case, `src/build/bundle.js`, so the nested check covers `build/` as well as `node_modules/`. The plan listed only `src/node_modules/a.js` for the nested case. I did not touch the primary-language selection, the pattern list, or Windows paths.
+
+One planned step I have not done yet: checking what path format the orchestrator passes in real runs, which the plan listed as an unknown. It is still an unknown.
