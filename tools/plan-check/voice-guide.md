@@ -1,34 +1,105 @@
 # Voice guide: how I talk upstream
 
 <!--
-THIS IS A CARRY-OVER SLOT, not a new hole. You wrote this guide in
-week 2; paste your filled week-2 voice-guide.md here, whole. It is not
-re-authored and it is not graded as new work this week.
+THIS IS THE PART YOU WRITE (new this week). Live mode reads this file
+before any comment of yours goes out the door; eval mode ignores it
+entirely, because your voice is yours and carries no gold labels.
 
-Then reread it with the plan comment in mind. Your claim and repro
-comments promised and reported; a plan comment commits you to an
-approach in front of the people who maintain the code. If your rules
-do not cover that register (for example: how you state an approach you
-are not certain of, or how you respond when a maintainer already
-suggested a direction), extend the guide with what it needs. Extending
-is allowed and encouraged; starting over is not required.
+This is not etiquette. "Be polite and concise" is advice for everyone
+and therefore rules for no one. Write rules YOU need, in your own
+words, each one concrete enough that the skill can hold a draft
+against it and say which rule it breaks.
 
-Live mode reads this file before your plan comment goes out and
-reports any rule your draft breaks. Eval mode ignores it entirely,
-because your voice is yours and carries no gold labels.
+Three sections. Fill all three.
 -->
 
 ## Who I am in threads
 
-<!-- Paste your week-2 section here. -->
+<!-- 2-3 lines. Who is talking when you comment on an issue: your
+experience level stated plainly, what you are doing in this repo, what
+readers can expect from you. This is the register your rules protect. -->
+
+I am an AI301 student with experience using Python and VS Code, and I am
+learning how to contribute to open-source projects. I write in a friendly,
+direct way and make it clear what I tested, what I observed, and what I still
+do not know.
 
 ## Rules I write by
 
-<!-- Paste your week-2 rules here, wrong/right pairs and all. Add any
-rule the plan-comment register needs that your week-2 comments did
-not. -->
+<!-- 3-5 rules, drafted from the lecture's slide-12 moment. Each rule
+needs a wrong/right pair from your own hand: one line you might
+actually have written that breaks the rule, and the line you would
+post instead. The pair is what makes a rule executable; a rule without
+one is a wish.
+
+Format each rule like this:
+
+### Rule: <short name>
+
+<The rule, one or two sentences.>
+
+- Wrong: "<a line that breaks it>"
+- Right: "<the line to post instead>"
+-->
+
+### Rule: Say what I actually did
+
+I describe completed actions and observed results, not work I only intend to
+do or conclusions I have not verified.
+
+- Wrong: "I confirmed this bug and know what is causing it."
+- Right: "I followed the reported steps and reproduced the error; I have not identified the cause yet."
+
+### Rule: Name the evidence
+
+I include the important environment detail and the exact result instead of
+calling something broken or fixed without support.
+
+- Wrong: "It does not work for me either."
+- Right: "On Python 3.14.3 on macOS, the command exits with `ValueError` after the second step."
+
+### Rule: Be friendly without using filler
+
+I thank maintainers when it is meaningful, but I keep the comment focused on
+the issue and avoid generic enthusiasm that hides the useful information.
+
+- Wrong: "Hi! This is an awesome project and I would absolutely love to work on this amazing issue!"
+- Right: "Hi, I would like to reproduce this issue and report the environment, steps, and output I observe."
+
+### Rule: Do not promise a deadline
+
+I state my next action without guaranteeing when I will finish or implying
+that maintainers must reserve the issue for me.
+
+- Wrong: "I will have this reproduced and fixed by tomorrow."
+- Right: "I plan to test the reported steps and will post the results when the reproduction is complete."
+
+### Rule: Mark uncertainty plainly
+
+I separate what the evidence proves from what I suspect so readers do not
+have to guess which statements are confirmed.
+
+- Wrong: "The dependency update definitely caused this."
+- Right: "The failure appears after the dependency update, but I have not yet isolated it as the cause."
+
+### Rule: Build on maintainer direction
+
+When a maintainer or collaborator has already suggested or ruled out an
+approach, I name that comment and say how my plan follows it. If I think a
+different approach is needed, I give the evidence and ask before going ahead.
+
+- Wrong: "I'm going to rewrite the parser to fix this."
+- Right: "Following @maintainer's suggestion to handle this in the reattach path, I plan to change only that handshake. If the repro shows it is not enough, I'll ask here before touching the parser."
 
 ## Things I never post
 
-<!-- Paste your week-2 list here; extend it if planning tempts you
-toward new ones (overpromised timelines are the classic). -->
+<!-- A short list. Promises you cannot keep, tones you refuse,
+shortcuts you know you reach for when tired. The skill quotes this
+list back at you when a draft crosses it. -->
+
+- Deadlines or completion promises I cannot guarantee.
+- Claims that I reproduced, fixed, or diagnosed something without evidence.
+- Demands that an issue be assigned to me or held for me.
+- Vague comments such as "same issue" without environment and result details.
+- Logs, screenshots, or generated text that I did not review for accuracy or
+  sensitive information.
