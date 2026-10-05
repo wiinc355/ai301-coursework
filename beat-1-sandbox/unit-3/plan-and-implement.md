@@ -65,7 +65,7 @@ FAILED tests/unit/test_tech_detector.py::TestTechDetector::test_build_directory_
 ======================= 2 failed, 25 deselected in 0.12s =======================
 ```
 
-**After**: same branch at `7203012` (the fix).
+**After**: same branch at `3744223` (the fix).
 
 ```
 $ .venv/bin/python   # same snippets
