@@ -1,4 +1,4 @@
-# Contribution: [Issue Title]
+# Contribution: Form Instructions content update
 
 Path: `beat-2-contribution/contribution-story.md`
 
@@ -7,12 +7,11 @@ the repository is not read. **Keep every section header below under its exact na
 format criteria grade exactly that. Your course repo link is the whole submission: no tool
 files and no evidence uploads are part of Assignment 5.
 
-**Contribution Number:** [1]
-**Student:** [Student name]
-**GitHub Username:** [your GitHub username, exactly as it appears on your profile - no @, no
-profile URL. Your comments upstream are identified by this name.]
-**Issue:** [GitHub issue link]
-**Pull Request:** [GitHub PR link, once opened]
+**Contribution Number:** 1
+**Student:** Derrick Woodall
+**GitHub Username:** wiinc355
+**Issue:** https://github.com/HHS/simpler-grants-gov/issues/9275
+**Pull Request:** Not opened yet
 
 One repository, built across units 5 to 8, telling the whole story of your real
 contribution. Fill it as you work, not at the end — the sections below ask for evidence that
@@ -79,24 +78,38 @@ drafted, what you did with the draft.]
 
 ## Why I Chose This Issue
 
-[1-2 paragraphs in your own words: how you searched, what your scan
-surfaced, what your scout's verdict said, why this issue fits your
-profile, and what you hope to learn. If your scout's verdict on it
-was reject and you chose it anyway, say so here and say why; choosing
-against your own tool silently is what loses points. Close with an
-honest read of the tool itself: where the scout fell short on a real
-wild search and what you changed or would change, or what convinced
-you it held up. **Record the link to your claim comment in this section too.**
-Not claimed yet? Write `claim pending` and today's date where the link goes,
-and add the link the moment your claim lands.]
+I searched with four GitHub CLI queries based on my Python and frontend
+interests, then used my issue-scout to rank and grade the results. The
+scout accepted HHS/simpler-grants-gov#9275: the repository is active, the
+issue has no assignee or linked pull request, and the request is a bounded
+content/UI change for the Required and Conditionally Required form tables.
+It fits my goal of improving frontend skills while building on my Python and
+VS Code experience, and I want to learn how an established public-service
+application handles a small content change through review and testing.
+
+The scan also showed why I need the scout instead of choosing from a title
+alone. It caught an earlier Altinn candidate that already had an open pull
+request, and it later rejected a different Altinn claim because its design
+decision was still unresolved. My ranking filters initially favored
+brand-new repositories, so I reduced the per-repository cap from two
+results to one; I also recorded that contributor badges can hide maintainer
+status and that any rubric patch for that limitation needs testing first.
+My claim and plan comment is
+https://github.com/HHS/simpler-grants-gov/issues/9275#issuecomment-6329956447.
 
 **Toolkit**
 
-- Tool: issue-scout (your scout: your search strategy, your rubric),
-  and how you used it
-- What it produced: [the scan and its verdict on this issue, described]
-- Difficulties: [where it fell short, or "none met" if none did]
-- What changed: [what you patched or would update, or "nothing"]
+- Tool: issue-scout, using four `gh search issues` queries, ranking
+  filters, and the rubric to grade the scan results and my claimed issues.
+- What it produced: 362 unique search results and an accept verdict for
+  HHS/simpler-grants-gov#9275, supported by active-project, maintainer,
+  policy, available-work, and bounded-scope evidence.
+- Difficulties: the first filters did not narrow the query results, fewest
+  comments favored brand-new repositories, and maintainer badges can appear
+  as CONTRIBUTOR when organization membership is private.
+- What changed: I reduced the per-repository cap from two candidates to one
+  and documented the badge limitation as a rubric patch to test rather than
+  applying it without an evaluation run.
 
 ---
 
@@ -104,26 +117,40 @@ and add the link the moment your claim lands.]
 
 **Problem Description**
 
-[In your own words, what is broken or missing?]
+The application currently does not clearly distinguish between a form whose
+instructions are unavailable and a form that simply has no instructions to
+show. That makes the Form Instructions field ambiguous in the Required and
+Conditionally Required form tables.
 
 **Expected Behavior**
 
-[What should happen?]
+When a form has no instructions, both tables should show the text "Not
+Applicable." This is a content-state change, not a change to system-error
+handling.
 
 **Current Behavior**
 
-[What actually happens?]
+The current UI uses wording that can imply that instructions are unavailable
+instead of clearly stating that the form has no applicable instructions.
 
 **Affected Components**
 
-[Which parts of the codebase are involved?]
+The affected area is the application-page UI that renders Form Instructions
+for Required and Conditionally Required forms. The issue's first acceptance
+criterion requires an engineering plan aligned with the Apply Tech Leads, so
+the exact component and test files still need to be confirmed before code
+changes begin.
 
 **Toolkit**
 
-- Tool:
-- What it produced:
-- Difficulties:
-- What changed:
+- Tool: issue-scout and the upstream issue, used to read the acceptance
+  criteria and the current-versus-proposed UI examples.
+- What it produced: a bounded problem statement: forms without instructions
+  need the explicit "Not Applicable" state in two application-page tables.
+- Difficulties: the issue requires agreement with the Apply Tech Leads before
+  implementation, so I do not yet know the exact source files or test paths.
+- What changed: I posted a claim comment that commits to tracing the render
+  path and confirming the implementation approach before editing code.
 
 ---
 
