@@ -146,11 +146,12 @@ instead of clearly stating that the form has no applicable instructions.
 
 **Affected Components**
 
-The affected area is the application-page UI that renders Form Instructions
-for Required and Conditionally Required forms. The issue's first acceptance
-criterion requires an engineering plan aligned with the Apply Tech Leads, so
-the exact component and test files still need to be confirmed before code
-changes begin.
+The affected area is
+`frontend/src/app/[locale]/(base)/workspace/applications/[applicationId]/_components/ApplicationFormsTable.tsx`.
+Its `InstructionsLink` fallback renders the Instructions cell for both the
+Required and Conditionally Required tables. The focused regression coverage is
+in `ApplicationFormsTable.test.tsx`; the issue's first acceptance criterion
+still requires the implementation plan to align with the Apply Tech Leads.
 
 **Toolkit**
 
@@ -159,9 +160,11 @@ changes begin.
 - What it produced: a bounded problem statement: forms without instructions
   need the explicit "Not Applicable" state in two application-page tables.
 - Difficulties: the issue requires agreement with the Apply Tech Leads before
-  implementation, so I do not yet know the exact source files or test paths.
-- What changed: I posted a claim comment that commits to tracing the render
-  path and confirming the implementation approach before editing code.
+  implementation, so I cannot yet assume that the current fallback location
+  is the final approved implementation scope.
+- What changed: I traced the render path and focused test file, then limited
+  the next implementation decision to confirming the approach with the Apply
+  Tech Leads before editing code.
 
 ---
 
