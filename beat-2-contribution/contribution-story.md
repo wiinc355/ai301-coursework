@@ -58,11 +58,16 @@ one in the week it belongs to.
 
 I ran my four `gh search issues` queries (400 results, 362 unique) through the ranking filters and graded the top 5 plus the two issues I had claimed. The scout accepted dapr/python-sdk#1335 and HHS/simpler-grants-gov#9275. It rejected my Altinn pick, altinn-studio#14892, because an open PR from August already closes it, and that is something I missed when I claimed it. The scan also showed that my first three filters did nothing and that "fewest comments first" filled the top 5 with brand-new repos, so I cut the per-repo cap from 2 to 1 and noted a badge-blind spot in the Maintainer engagement check as a rubric patch to test before I change it.
 
-**Unit 6: [one line on the tool work]**
+**Unit 6: Installing a voice guard and preserving focused repository memory**
 
-[2-4 sentences: the voice-guard, the repo-memory file. What broke or
-fell short, and what changed because of it. "Nothing broke" counts when
-it is true - say how you know.]
+I installed the voice guard as a global Claude Code hook and made the
+repro-check, plan-check, and pr-precheck skills use one canonical voice guide.
+The guard stopped my first claim-draft question because it was too broad, so I
+rewrote it to ask about the specific Apply Tech Leads decision and verified the
+revised draft manually. I also created a locally excluded `CLAUDE.local.md` in
+my fork that records the contribution rules, Form Instructions render path,
+and exact frontend test commands; this prevents repeated broad orientation
+without adding personal notes to an upstream PR.
 
 **Unit 7: [one line on the tool work]**
 
@@ -83,9 +88,13 @@ interests, then used my issue-scout to rank and grade the results. The
 scout accepted HHS/simpler-grants-gov#9275: the repository is active, the
 issue has no assignee or linked pull request, and the request is a bounded
 content/UI change for the Required and Conditionally Required form tables.
-It fits my goal of improving frontend skills while building on my Python and
-VS Code experience, and I want to learn how an established public-service
-application handles a small content change through review and testing.
+After the Unit 6 scope patch, I rated it **ambitious** because the first
+acceptance criterion requires an engineering plan aligned with the Apply Tech
+Leads; I asked in my claim whether an existing decision or discussion should
+guide that step. It fits my goal of improving frontend skills while building
+on my Python and VS Code experience, and I want to learn how an established
+public-service application handles a small content change through review and
+testing.
 
 The scan also showed why I need the scout instead of choosing from a title
 alone. It caught an earlier Altinn candidate that already had an open pull
@@ -107,9 +116,11 @@ https://github.com/HHS/simpler-grants-gov/issues/9275#issuecomment-6329956447.
 - Difficulties: the first filters did not narrow the query results, fewest
   comments favored brand-new repositories, and maintainer badges can appear
   as CONTRIBUTOR when organization membership is private.
-- What changed: I reduced the per-repository cap from two candidates to one
-  and documented the badge limitation as a rubric patch to test rather than
-  applying it without an evaluation run.
+- What changed: I reduced the per-repository cap from two candidates to one.
+  I also replaced the strict "Bounded, actionable scope" check with
+  `scope-feasible`: true umbrella issues still reject, while an open edge now
+  becomes a straightforward, moderate, or ambitious difficulty note instead
+  of an automatic rejection.
 
 ---
 
@@ -158,31 +169,48 @@ changes begin.
 
 **Environment Setup**
 
-[What a stranger would need to stand this up: your operating system,
-the relevant versions (language, runtime, package manager, the project
-itself), and how you set the project up. Then the challenges you faced
-and how you solved them, or that none came up.]
+I used macOS and fork commit
+`48d93f882c63a711bdec4b16e3150d1293cdff43` with Node `v24.11.1` and npm
+`11.6.4`. The frontend declares Node `>=24.19.0`, so this is focused
+source-and-unit-test evidence rather than a supported browser run. The first
+test attempt failed with `sh: jest: command not found` because dependencies
+were absent; from `frontend/`, I ran `npm ci` with the committed lockfile.
 
 **Steps to Reproduce**
 
-1. [Step 1]
-2. [Step 2]
-3. [Observed result]
+1. From `frontend/`, run `npm run test -- ApplicationFormsTable.test.tsx`.
+2. In the passing `Renders without errors` case, inspect the required-form
+   fixture with no `form_instruction.download_path`; the assertion expects
+   `attachmentUnavailable`.
+3. Inspect `InstructionsLink` in `ApplicationFormsTable.tsx`: an absent
+   download path renders `t("attachmentUnavailable")` in the Instructions
+   column shared by the Required and Conditionally Required tables.
+4. Observe that the English translation is `"Unavailable"`, not the
+   `"Not Applicable"` wording requested in the issue.
 
 **Reproduction Evidence**
 
-- **Commit showing reproduction:** [link to commit in your fork]
-- **Screenshots/logs:** [if applicable]
-- **My findings:** [what you discovered during reproduction; an
-  honest, evidenced cannot-reproduce that led you to re-pick or ask
-  the maintainer belongs here and costs you nothing]
+- **Commit showing reproduction:** none; the reproduction uses fork commit
+  `48d93f882c63a711bdec4b16e3150d1293cdff43` without code changes.
+- **Screenshots/logs:** `npm run test -- ApplicationFormsTable.test.tsx`
+  passed 1 suite and 4 tests. The run emitted existing React `act(...)` and
+  jsdom navigation warnings, but Jest passed.
+- **My findings:** the required-form test renders the absent-path branch, and
+  the shared `InstructionsLink` code uses the same `attachmentUnavailable`
+  fallback for both tables. The English message is `"Unavailable"`. I did
+  not claim a supported browser reproduction because the available Node
+  version is below the repository's declared floor.
 
 **Toolkit**
 
-- Tool:
-- What it produced:
-- Difficulties:
-- What changed:
+- Tool: repro-check, the focused Jest suite, and source/fixture inspection.
+- What it produced: a repeatable focused test command, the current
+  `"Unavailable"` translation, and the shared fallback render path.
+- Difficulties: Claude Code's repro-check session could not read its installed
+  rubric files, and the available Node `v24.11.1` is below the repository's
+  `>=24.19.0` requirement.
+- What changed: I disclosed the unsupported runtime and limited the finding
+  to source-and-unit-test evidence instead of claiming a browser reproduction.
 
 ---
 
