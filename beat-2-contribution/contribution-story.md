@@ -90,8 +90,8 @@ issue has no assignee or linked pull request, and the request is a bounded
 content/UI change for the Required and Conditionally Required form tables.
 After the Unit 6 scope patch, I rated it **ambitious** because the first
 acceptance criterion requires an engineering plan aligned with the Apply Tech
-Leads; I asked in my claim whether an existing decision or discussion should
-guide that step. It fits my goal of improving frontend skills while building
+Leads; I asked in my claim whether existing implementation notes or constraints
+should guide that step. It fits my goal of improving frontend skills while building
 on my Python and VS Code experience, and I want to learn how an established
 public-service application handles a small content change through review and
 testing.
