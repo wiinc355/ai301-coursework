@@ -54,11 +54,11 @@ happened; these entries are the toolkit's own timeline.
 All four entries are graded. Keep every heading below, and fill each
 one in the week it belongs to.
 
-**Unit 5: Running the issue-scout scan and grading my picks**
+**Unit 5: 2026-10-21 — Running the issue-scout scan and grading my picks**
 
 I ran my four `gh search issues` queries (400 results, 362 unique) through the ranking filters and graded the top 5 plus the two issues I had claimed. The scout accepted dapr/python-sdk#1335 and HHS/simpler-grants-gov#9275. It rejected my Altinn pick, altinn-studio#14892, because an open PR from August already closes it, and that is something I missed when I claimed it. The scan also showed that my first three filters did nothing and that "fewest comments first" filled the top 5 with brand-new repos, so I cut the per-repo cap from 2 to 1 and noted a badge-blind spot in the Maintainer engagement check as a rubric patch to test before I change it.
 
-**Unit 6: Installing a voice guard and preserving focused repository memory**
+**Unit 6: 2026-10-25 — Installing a voice guard and preserving focused repository memory**
 
 I installed the voice guard as a global Claude Code hook and made the
 repro-check, plan-check, and pr-precheck skills use one canonical voice guide.
@@ -69,7 +69,7 @@ my fork that records the contribution rules, Form Instructions render path,
 and exact frontend test commands; this prevents repeated broad orientation
 without adding personal notes to an upstream PR.
 
-**Unit 7: Installing the ship-gate and recording project checks**
+**Unit 7: 2026-11-01 — Installing the ship-gate and recording project checks**
 
 I installed the ship-gate and filled in the HHS/simpler-grants-gov manifest
 with dependency setup, the focused test, lint, type check, and format check.
@@ -82,7 +82,7 @@ was pending. I added @btabaska, disclosed the unresolved alignment and UAT
 in a draft for discussion, updated the evidence, and reran the gate
 successfully.
 
-**Unit 8: Installing the PR monitor and writing my review playbook**
+**Unit 8: 2026-11-08 — Installing the PR monitor and writing my review playbook**
 
 I installed the monitor and researched five recent external PRs: their median
 wait for a first maintainer response was 12.8 days, so my playbook uses 17
