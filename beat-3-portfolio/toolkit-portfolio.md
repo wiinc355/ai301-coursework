@@ -18,8 +18,9 @@ accountability.
 **What it is, and the judgment hole I wrote:** I developed and used
 issue-scout to help identify, evaluate, and select suitable open-source issues
 for contribution. My judgment focused on determining whether an issue was
-available, actively maintained, appropriately scoped, and worth pursuing. I
-used evaluation criteria to distinguish legitimate contribution opportunities
+available, actively maintained, appropriately scoped, and worth pursuing.
+
+I used evaluation criteria to distinguish legitimate contribution opportunities
 from issues that were already claimed, inactive, or unsuitable. This helped
 me make more informed decisions instead of relying solely on automated
 search results.
